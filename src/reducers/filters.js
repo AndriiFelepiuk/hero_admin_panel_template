@@ -1,11 +1,14 @@
+import { filtersFetchingError } from "../actions"
+
 const initialState = {
-    heroes: [],
-    heroesLoadingStatus: 'idle',
+    filters: [],
+    activeFilter: 'all',
+    filtersLoadingStatus:'idle',
+    filteredHeroes: [],
 }
 
-const reducer = (state = initialState, action) => {
+const filters = (state = initialState, action) => {
     switch (action.type) {
-
         case 'FILTERS_FETCHING':
             return {
                 ...state,
@@ -36,4 +39,4 @@ const reducer = (state = initialState, action) => {
     }
 }
 
-export default reducer;
+export default filters;

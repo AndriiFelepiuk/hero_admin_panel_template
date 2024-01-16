@@ -1,17 +1,50 @@
-
-// Завдання для цього компонента:
-// Реалізувати створення нового героя із запровадженими даними. Він має потрапляти
-// у загальний стан і відображатись у списку + фільтруватися
-// Унікальний ідентифікатор персонажа можна згенерувати через uiid
-// Ускладнене завдання:
-// Персонаж створюється і файлі json за допомогою методу POST
-// Додатково:
-// Елементи <option></option> бажано сформувати на базі
-// даних із фільтрів
+import {useHttp} from '../../hooks/http.hook';
+import {useState} from "react";
+import {heroCreated, heroesFetchingError} from "../../actions";
+import {useDispatch, useSelector} from "react-redux";
 
 const HeroesAddForm = () => {
+    
+    const {filters, filtersLoadingStatus} = useSelector(state => state.filters);
+
+    const dispatch = useDispatch();
+    const {request} = useHttp();
+
+    const [name, setName] = useState('')
+    const [description, setDescription] = useState('')
+    const [element, setElement] = useState('')
+
+    const elOptions = filters.map(el =>{
+        // if(el.name ==='all')return;
+        return <option value={el.name}>{el.label}</option>
+    })
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const newHero =     {
+            id: Date.now(),
+            name,
+            description,
+            element
+        }
+        console.log(newHero);
+
+        request("http://localhost:3001/heroes", 'POST', JSON.stringify(newHero))
+            .then(res => console.log(res))
+            .then(dispatch(heroCreated(newHero)))
+            .catch(() => dispatch(heroesFetchingError()))
+
+
+        setName('')
+        setDescription('');
+        setElement('')
+    }
     return (
-        <form className="border p-4 shadow-lg rounded">
+        <form
+            className="border p-4 shadow-lg rounded"
+            onSubmit={(e)=>handleSubmit(e)}>
             <div className="mb-3">
                 <label htmlFor="name" className="form-label fs-4">Ім'я нового героя</label>
                 <input 
@@ -19,19 +52,23 @@ const HeroesAddForm = () => {
                     type="text" 
                     name="name" 
                     className="form-control" 
-                    id="name" 
-                    placeholder="Як мене звуть?"/>
+                    id="name"
+                    placeholder="Як мене звуть?"
+                    value={name}
+                    onChange={(e)=>setName(e.target.value)}/>
             </div>
 
             <div className="mb-3">
-                <label htmlFor="text" className="form-label fs-4">Описание</label>
+                <label htmlFor="text" className="form-label fs-4">Опис</label>
                 <textarea
                     required
                     name="text" 
                     className="form-control" 
                     id="text" 
                     placeholder="Що я вмію?"
-                    style={{"height": '130px'}}/>
+                    style={{"height": '130px'}}
+                    value={description}
+                    onChange={(e)=>setDescription(e.target.value)}/>
             </div>
 
             <div className="mb-3">
@@ -40,12 +77,10 @@ const HeroesAddForm = () => {
                     required
                     className="form-select" 
                     id="element" 
-                    name="element">
-                    <option >Моя супер сила...</option>
-                    <option value="fire">Вогонь</option>
-                    <option value="water">Вода</option>
-                    <option value="wind">Вітер</option>
-                    <option value="earth">Земля</option>
+                    name="element"
+                    value={element}
+                    onChange={(e)=>setElement(e.target.value)}>
+                    {elOptions}
                 </select>
             </div>
 

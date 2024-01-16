@@ -1,10 +1,61 @@
 {
-  "heroes": [],
+  "heroes": [
+    {
+      "id": 1703179343663,
+      "description": "dasdsa",
+      "name": "food",
+      "element": "water"
+    },
+    {
+      "id": 1703176740662,
+      "name": "eebdkjsafkjna,",
+      "description": "fsadas",
+      "element": "fire"
+    },
+    {
+      "id": 1704817419676,
+      "name": "dv",
+      "description": "caDC",
+      "element": "earth"
+    },
+    {
+      "id": 1704987414157,
+      "name": "daD",
+      "description": "DDD",
+      "element": "wind"
+    },
+    {
+      "id": 1705421036411,
+      "name": "rcgcc",
+      "description": "vrcgerxt",
+      "element": ""
+    }
+  ],
   "filters": [
-    "all",
-    "fire",
-    "water",
-    "wind",
-    "earth"
+    {
+      "name": "all",
+      "label": "Всі",
+      "className": "btn-outline-dark"
+    },
+    {
+      "name": "fire",
+      "label": "Вогонь",
+      "className": "btn-danger"
+    },
+    {
+      "name": "water",
+      "label": "Вода",
+      "className": "btn-primary"
+    },
+    {
+      "name": "wind",
+      "label": "Вітер",
+      "className": "btn-success"
+    },
+    {
+      "name": "earth",
+      "label": "Земля",
+      "className": "btn-secondary"
+    }
   ]
 }
